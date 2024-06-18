@@ -14,6 +14,7 @@ class ImageViewer:
         self.clg = r"/clg"
         self.fam = r"/fam"
         self.myself = r"/myself"
+        self.interesting = r"/interesting"
 
         self.top_frame = tk.Frame(self.master, width=600, bd=1, relief="solid")
         self.top_frame.pack(side="top", fill="both", expand="yes")
@@ -88,6 +89,7 @@ class ImageViewer:
         self.clg = path + self.clg
         self.fam = path + self.fam
         self.myself = path + self.myself
+        self.interesting = path + self.interesting
 
         if(not os.path.exists(self.delete)):
             os.mkdir(self.delete)
@@ -97,6 +99,8 @@ class ImageViewer:
             os.mkdir(self.fam)
         if(not os.path.exists(self.myself)):
             os.mkdir(self.myself)
+        if(not os.path.exists(self.interesting)):
+            os.mkdir(self.interesting)
 
     def locator(self):
         print(self.images[self.location])
@@ -110,24 +114,29 @@ class ImageViewer:
     def move_to_other_directory(self, dir_type):
         current_path = self.images[self.location]
         current_filename = r"/" + os.path.basename(current_path)
+        previous_location = self.location
         
         match(dir_type):
             case 's':
                 os.rename(src=current_path, dst=self.myself+current_filename)
-                del self.images[self.location]
                 self.forward_action()
+                del self.images[previous_location]
             case 'd':
                 os.rename(src=current_path, dst=self.delete+current_filename)
-                del self.images[self.location]
                 self.forward_action()
+                del self.images[previous_location]
             case 'f':
                 os.rename(src=current_path, dst=self.fam+current_filename)
-                del self.images[self.location]
                 self.forward_action()
+                del self.images[previous_location]
             case 'c':
                 os.rename(src=current_path, dst=self.clg+current_filename)
-                del self.images[self.location]
                 self.forward_action()
+                del self.images[previous_location]
+            case 'i':
+                os.rename(src=current_path, dst=self.interesting+current_filename)
+                self.forward_action()
+                del self.images[previous_location]
 
 if __name__ == "__main__":
     root = tk.Tk()
