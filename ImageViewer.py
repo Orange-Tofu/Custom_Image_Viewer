@@ -111,6 +111,10 @@ class ImageViewer:
     def forward_action(self):
         self.load_image(1)
 
+    def move_and_delete(self, pathToDelete):
+        self.load_image(0)
+        self.images.remove(pathToDelete)
+
     def move_to_other_directory(self, dir_type):
         current_path = self.images[self.location]
         current_filename = r"/" + os.path.basename(current_path)
@@ -118,25 +122,20 @@ class ImageViewer:
         
         match(dir_type):
             case 's':
+                self.move_and_delete(current_path)
                 os.rename(src=current_path, dst=self.myself+current_filename)
-                self.forward_action()
-                del self.images[previous_location]
             case 'd':
+                self.move_and_delete(current_path)
                 os.rename(src=current_path, dst=self.delete+current_filename)
-                self.forward_action()
-                del self.images[previous_location]
             case 'f':
+                self.move_and_delete(current_path)
                 os.rename(src=current_path, dst=self.fam+current_filename)
-                self.forward_action()
-                del self.images[previous_location]
             case 'c':
+                self.move_and_delete(current_path)
                 os.rename(src=current_path, dst=self.clg+current_filename)
-                self.forward_action()
-                del self.images[previous_location]
             case 'i':
+                self.move_and_delete(current_path)
                 os.rename(src=current_path, dst=self.interesting+current_filename)
-                self.forward_action()
-                del self.images[previous_location]
 
 if __name__ == "__main__":
     root = tk.Tk()
